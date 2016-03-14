@@ -1,0 +1,98 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="jquery-1.8.2.min.js"></script>
+<script type="text/javascript">
+function print(msg) {  
+  var li = "<li style='display:none'>" + msg + "</li>";
+  $(li).prependTo($('#messages')).slideDown();
+}
+
+var readCallback = null;
+
+function read(msg, callback) {
+  print(msg);
+  var inp = $('#inp');
+  $('#messages li:first').append(inp);
+  inp.show();
+  inp.focus();
+  readCallback = callback;
+}
+
+$(document).ready(function() {  
+  $("#inp").keypress(function(event) {
+     if ( event.which == 13 ) {
+       event.preventDefault();
+       // alert($(this).val());
+       $(this).parent().append("<span>" + $(this).val() + "</span>");
+       // print($(this).val());
+       $(this).hide();
+       if (readCallback) readCallback.call(game, $(this).val());
+       $(this).val("");
+    }
+  })
+  
+  main();
+});
+
+</script>
+<script type="text/javascript" src="matches.js"></script>
+
+<title>Super Toto Super Lig</title>
+<style>
+body {
+ padding: 10px 30px;
+ background-color: #33FFFF;
+}
+h2 {
+  text-align: center;
+  margin: 10px auto 25px auto;
+  width: 80%;
+  border-bottom: 5px double black;
+}
+#messages{
+ margin: 5px auto 5px auto;
+ /* padding: 5px; */
+ width: 60%; 
+ font-family: "Courier";
+ font-size: 15px;
+}
+
+#messages li{
+ margin: 2px;
+ list-style-type: none;
+}
+
+#messages li:first-child {
+  background-color: #FFFF00; 
+  padding: 3px;
+}
+
+#inp {
+  display: none;
+  margin-left: 10px;
+}
+
+p {
+  width: 85%;
+  margin: 10px auto;
+  text-align: justify;
+}
+</style>
+</head>
+<body>
+<h2>Spor Toto SuperLig</h2>
+<p id="buttons"></p>
+<script type="text/javascript" src="buton.js"></script>
+<input type='text' id='inp' size=40>
+<input id="Statistis" type="button" value="Statistics" onclick=readteam(); />
+<input id="Statistis" type="button" value="OneTeamAllMatch" onclick=readOneTeamAllMatch(); />
+<input id="Statistis" type="button" value="TeamStats" onclick=readteamStat(); />
+<input id="Statistis" type="button" value="MostGoalforallTeam" onclick=MostGoalallTeam(); />
+<input id="Statistis" type="button" value="MostGoalforOneTeam" onclick=readOneteam(); />
+<input id="Statistis" type="button" value="DiffGoal" onclick=readTeamDiff(); />
+<input id="Statistis" type="button" value="PointTable" onclick=pointTable(); />
+<input id="Statistis" type="button" value="SameScore" onclick=readSameScore() ; /> 
+<ul id='messages'></ul>
+</body>
+</html>
